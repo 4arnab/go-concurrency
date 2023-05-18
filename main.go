@@ -10,9 +10,23 @@ func main() {
 	// storeData("another data stored ", "data.txt")
 	go storeDataTwo(50, "data1.txt", channel)
 	go storeDataTwo(50, "data2.txt", channel)
+	go storeDataTwo(50, "data2.txt", channel)
+	go storeDataTwo(50, "data2.txt", channel)
 
-	<-channel
-	<-channel
+	// if u are using singe in a goroutine close it in its living function
+	// else close it manually by using if statement in the loop
+
+	sum := 0
+
+	for chanData := range channel {
+		sum += chanData
+		if sum == 4 {
+			close(channel) // this will close the channel and stops the goroutine execution
+		}
+		fmt.Println(chanData)
+	}
+	// <-channel
+	// <-channel
 
 	fmt.Println(<-channel)
 	great()
@@ -44,4 +58,5 @@ func storeDataTwo(item int, fileName string, c chan int) {
 	fmt.Println("successfully stored")
 
 	c <- 1
+	// this is the living function to close use the built in <Close> function then pass the channel you are trying to close
 }
