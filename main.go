@@ -6,10 +6,15 @@ import (
 )
 
 func main() {
+	channel := make(chan int)
 	// storeData("another data stored ", "data.txt")
-	go storeDataTwo(5000)
-	go storeDataTwo(5000)
+	go storeDataTwo(50, "data1.txt", channel)
+	go storeDataTwo(50, "data2.txt", channel)
 
+	<-channel
+	<-channel
+
+	fmt.Println(<-channel)
 	great()
 }
 
@@ -31,11 +36,12 @@ func storeData(data, fileName string) {
 	}
 }
 
-func storeDataTwo(item int) {
+func storeDataTwo(item int, fileName string, c chan int) {
 	for i := 0; i < item; i++ {
-		storeData(fmt.Sprintf("The loop is: %v\n", i), "data.txt")
+		storeData(fmt.Sprintf("%v -- Dummy data\n", i), fileName)
 	}
 
 	fmt.Println("successfully stored")
 
+	c <- 1
 }
