@@ -7,6 +7,10 @@ import (
 
 func main() {
 	channel := make(chan int)
+
+	// this means w're limiting the rate of goroutines executes at the same time
+	//in this case 3 goroutines allowed ber execution whens finishes that three executions another three also began
+	// channelTwo := make(chan int, 3)
 	// storeData("another data stored ", "data.txt")
 	go storeDataTwo(50, "data1.txt", channel)
 	go storeDataTwo(50, "data2.txt", channel)
